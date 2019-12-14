@@ -1,0 +1,9 @@
+[{
+  "id": "5ca94a8ac470d3e47cd4713c",
+  "model": "fusion",
+  "components": [{
+    "name": "led_panel"
+  }, {
+    "name": "amplifier"
+  }]
+}]
