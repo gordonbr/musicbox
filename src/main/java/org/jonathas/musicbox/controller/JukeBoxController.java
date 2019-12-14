@@ -4,6 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.jonathas.musicbox.business.JukeBoxBusiness;
 import org.jonathas.musicbox.model.JukeBox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +19,8 @@ public class JukeBoxController {
 
     @Autowired
     private JukeBoxBusiness jukeBoxBusiness;
+
+    private Logger logger = LoggerFactory.getLogger(JukeBoxController.class);
 
     /**
      * Returns a paginated list of jukeboxes that support a given setting id
@@ -32,6 +36,8 @@ public class JukeBoxController {
                                                 @RequestParam(name = "model", required = false) String model,
                                                 @RequestParam(name = "offset", required = false) Integer offset,
                                                 @RequestParam(name = "limit", required = false) Integer limit) {
+        logger.info(String.format("Called getJukeBoxesBySettings with settingId:%s, model:%s, offset:%d and limit:%d",
+                settingId, model, offset, limit));
         return jukeBoxBusiness.getJukeBoxesBySettings(settingId, model, offset, limit);
     }
 }
