@@ -3,8 +3,17 @@
     "id": "e9869bbe-887f-4d0a-bb9d-b81eb55fbf0a",
     "requires": ["camera", "speaker", "pcb"]
   }, {
-    "id": "db886f37-16e3-4a55-80e4-cfffc9e4e464",
+    "id": "zb886f37-16e3-4a55-80e4-cfffc9e4e464",
     "requires": ["touchscreen", "money_pcb", "led_panel", "money_receiver"]
+  }, {
+    "id": "db886f37-80e4-16e3-80e4-cfffc9e4e464",
+    "requires": ["touchscreen", "money_pcb", "led_panel", "money_receiver"]
+  }, {
+    "id": "at886f37-80e4-4a55-80e4-cfffc9e4e464",
+    "requires": ["amplifier", "money_pcb", "led_panel", "money_receiver"]
+  }, {
+    "id": "tc786f37-4a55-4a66-80e4-cfffc9e4e464",
+    "requires": ["touchscreen", "money_pcb", "led_panel", "amplifier"]
   }
   ]
 }

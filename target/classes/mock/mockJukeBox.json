@@ -1,9 +1,50 @@
-[{
-  "id": "5ca94a8ac470d3e47cd4713c",
-  "model": "fusion",
-  "components": [{
-    "name": "led_panel"
-  }, {
-    "name": "amplifier"
-  }]
-}]
+[
+  {
+    "id": "5ca94a8ac470d3e47cd4713c",
+    "model": "fusion",
+    "components": [{
+      "name": "led_panel"
+    }, {
+      "name": "amplifier"
+    }, {
+      "name": "money_pcb"
+    }, {
+      "name": "touchscreen"
+    }]
+  },
+  {
+    "id": "9za94a8ac470d3e47cd4713d",
+    "model": "mixer",
+    "components": [{
+      "name": "touchscreen"
+    }, {
+      "name": "money_pcb"
+    }]
+  },
+  {
+    "id": "9za94a8ac470d3e47cd4713d",
+    "model": "mixer",
+    "components": [{
+      "name": "camera"
+    }, {
+      "name": "speaker"
+    }, {
+      "name": "pcb"
+    }]
+  },
+  {
+    "id": "3za89a8ac470d3e47cd4731e",
+    "model": "mixer",
+    "components": [{
+      "name": "touchscreen"
+    }, {
+      "name": "speaker"
+    }, {
+      "name": "led_panel"
+    }, {
+      "name": "amplifier"
+    }, {
+      "name": "money_pcb"
+    }]
+  }
+]
