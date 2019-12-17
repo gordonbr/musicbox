@@ -1,5 +1,6 @@
 package org.jonathas.musicbox.business;
 
+import org.jonathas.musicbox.exceptions.EntityNotFoundException;
 import org.jonathas.musicbox.model.JukeBox;
 import org.jonathas.musicbox.model.JukeBoxComponent;
 import org.jonathas.musicbox.model.JukeBoxSetting;
@@ -22,46 +23,49 @@ public class JukeBoxBusiness {
 
         List<JukeBox> jukeBoxList = jukeBoxService.getJukeBoxList();
         List<JukeBoxSetting> jukeBoxSettings = jukeBoxService.getSettingsList();
+        JukeBoxSetting jukeBoxSetting = findJukeBoxSettings(jukeBoxSettings, settingId);
 
-        return filterJukerBoxes(jukeBoxList, jukeBoxSettings, settingId, model, offset, limit);
+        return filterJukerBoxes(jukeBoxList, jukeBoxSetting, settingId, model, offset, limit);
     }
 
     /**
-     * Look for the jukeboxes that have all the components in a given settingId
+     * Looks for the JukeboxSetting with the given setting id.
+     * @param jukeBoxSettingList List of JukeboxSetting
+     * @param settingId Setting id to be matched against
+     * @return The jukeboxSetting with the given setting id or throws a exception with none was found.
+     * @throws EntityNotFoundException
+     */
+    private JukeBoxSetting findJukeBoxSettings(List<JukeBoxSetting> jukeBoxSettingList, String settingId) {
+        // Look for the JukeBoxSetting with the given settingId
+        Optional<JukeBoxSetting> optionalJukeBoxSetting = jukeBoxSettingList.stream().filter(setting -> setting.getId().equals(settingId)).findFirst();
+        return optionalJukeBoxSetting.orElseThrow(() -> new EntityNotFoundException(JukeBoxBusiness.class, "id", settingId));
+    }
+
+    /**
+     * Look for the jukeboxes that have all the components in a given jukeboxSetting
      * @param jukeBoxes A list of jukebox
-     * @param jukeBoxSettings a list of jukebox settings
+     * @param jukeBoxSetting a jukeboxSetting
      * @param settingId the jukebox setting id to be matched agains
      * @param model filter the returning list by jukebox model
      * @param offset offset of the returning list
      * @param limit limit of the returning list
      * @return A list of jukebox that match the given parameters
      */
-    private List<JukeBox> filterJukerBoxes(List<JukeBox> jukeBoxes, List<JukeBoxSetting> jukeBoxSettings, String settingId,
+    private List<JukeBox> filterJukerBoxes(List<JukeBox> jukeBoxes, JukeBoxSetting jukeBoxSetting, String settingId,
                                            String model, Integer offset, Integer limit) {
 
         List<JukeBox> foundJukeBoxes = new ArrayList<>();
+        foundJukeBoxes = jukeBoxes.stream().filter(jukeBox -> { // filter by list of component
+            // If a given required component in a setting is not present, returns false
+            for(String component : jukeBoxSetting.getRequires()) {
+                if (!jukeBoxHasComponent(jukeBox, component)) { return false; }
+            }
 
-        // Look for the JukeBoxSetting with the given settingId
-        Optional<JukeBoxSetting> optionalJukeBoxSetting = jukeBoxSettings.stream().filter(setting -> setting.getId().equals(settingId)).findFirst();
-
-        // The JukeBoxSetting for the given settingId was found
-        if(optionalJukeBoxSetting.isPresent()) {
-            JukeBoxSetting foundJukeBoxSetting = optionalJukeBoxSetting.get();
-
-            foundJukeBoxes = jukeBoxes.stream().filter(jukeBox -> { // filter by list of component
-
-                // If a given required component in a setting is not present, returns false
-                for(String component : foundJukeBoxSetting.getRequires()) {
-                    if (!jukeBoxHasComponent(jukeBox, component)) { return false; }
-                }
-
-                // Given the jukebox has all component, filter by model, if present
-                if(model != null) {
-                    return jukeBox.getModel().equals(model);
-                } else { return true; }
-
-            }).collect(Collectors.toList());
-        }
+            // Given the jukebox has all component, filter by model, if present
+            if(model != null) {
+                return jukeBox.getModel().equals(model);
+            } else { return true; }
+        }).collect(Collectors.toList());
 
         // Returns the sublist of offset and limit, if present
         return subList(foundJukeBoxes, offset, limit);
@@ -85,7 +89,6 @@ public class JukeBoxBusiness {
             limit = jukeBoxList.size();
         else
             limit = offset + limit;
-
 
         return jukeBoxList.subList(offset, limit);
     }
