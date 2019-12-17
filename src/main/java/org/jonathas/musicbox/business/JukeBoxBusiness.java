@@ -19,11 +19,21 @@ public class JukeBoxBusiness {
     @Autowired
     private JukeBoxService jukeBoxService;
 
+    /**
+     * Looks for the jukeboxes that support a given setting
+     * @param settingId The setting id
+     * @param model Filter the jukeboxes by model
+     * @param offset Offset of the returning list
+     * @param limit Limit of the returning list
+     * @return A list of Jukeboxes that support the setting
+     * @throws EntityNotFoundException if no setting was found for the given setting id
+     */
     public List<JukeBox> getJukeBoxesBySettings(String settingId, String model, Integer offset, Integer limit) {
 
-        List<JukeBox> jukeBoxList = jukeBoxService.getJukeBoxList();
         List<JukeBoxSetting> jukeBoxSettings = jukeBoxService.getSettingsList();
         JukeBoxSetting jukeBoxSetting = findJukeBoxSettings(jukeBoxSettings, settingId);
+
+        List<JukeBox> jukeBoxList = jukeBoxService.getJukeBoxList();
 
         return filterJukerBoxes(jukeBoxList, jukeBoxSetting, settingId, model, offset, limit);
     }
@@ -33,10 +43,9 @@ public class JukeBoxBusiness {
      * @param jukeBoxSettingList List of JukeboxSetting
      * @param settingId Setting id to be matched against
      * @return The jukeboxSetting with the given setting id or throws a exception with none was found.
-     * @throws EntityNotFoundException
+     * @throws EntityNotFoundException if no setting was found for the given setting id
      */
     private JukeBoxSetting findJukeBoxSettings(List<JukeBoxSetting> jukeBoxSettingList, String settingId) {
-        // Look for the JukeBoxSetting with the given settingId
         Optional<JukeBoxSetting> optionalJukeBoxSetting = jukeBoxSettingList.stream().filter(setting -> setting.getId().equals(settingId)).findFirst();
         return optionalJukeBoxSetting.orElseThrow(() -> new EntityNotFoundException(JukeBoxBusiness.class, "id", settingId));
     }

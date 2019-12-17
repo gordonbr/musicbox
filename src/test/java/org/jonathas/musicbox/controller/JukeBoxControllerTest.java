@@ -1,6 +1,5 @@
 package org.jonathas.musicbox.controller;
 
-import org.hibernate.validator.constraints.br.TituloEleitoral;
 import org.jonathas.musicbox.business.JukeBoxBusiness;
 import org.jonathas.musicbox.exceptions.EntityNotFoundException;
 import org.jonathas.musicbox.model.JukeBox;
@@ -35,7 +34,7 @@ public class JukeBoxControllerTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void canRetrieveByIdWhenExistsNoSettingId() {
+    public void canRetrieveByIdWhenNoSettingId() {
         // when
         ResponseEntity<Object> responseEntity = restTemplate.getForEntity("/jukeboxes", Object.class);
 
@@ -91,7 +90,7 @@ public class JukeBoxControllerTest {
     }
 
     @Test
-    public void canRetrieveByIdWhenExistsNotFound() {
+    public void canRetrieveByIdWhenNotFound() {
         String settingId = "testId";
         String jukeBoxModel = "model1";
         Integer offset = 0;
