@@ -4,7 +4,7 @@ import org.jonathas.musicbox.exceptions.EntityNotFoundException;
 import org.jonathas.musicbox.model.JukeBox;
 import org.jonathas.musicbox.model.JukeBoxComponent;
 import org.jonathas.musicbox.model.JukeBoxSetting;
-import org.jonathas.musicbox.service.JukeBoxService;
+import org.jonathas.musicbox.service.JukeBoxServiceMocked;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +25,7 @@ import static org.mockito.BDDMockito.given;
 public class JukeBoxBusinessTest {
 
     @MockBean
-    JukeBoxService jukeBoxService;
+    JukeBoxServiceMocked jukeBoxServiceMocked;
 
     @Autowired
     JukeBoxBusiness jukeBoxBusiness;
@@ -57,7 +57,7 @@ public class JukeBoxBusinessTest {
     @Test(expected = EntityNotFoundException.class)
     public void getJukeBoxesBySettings_SettingIdNotFound() {
         // given
-        given(jukeBoxService.getSettingsList()).willReturn(jukeBoxSettingList);
+        given(jukeBoxServiceMocked.getSettingsList()).willReturn(jukeBoxSettingList);
 
         // when
         jukeBoxBusiness.getJukeBoxesBySettings("fake", null, null, null);
@@ -66,8 +66,8 @@ public class JukeBoxBusinessTest {
     @Test
     public void getJukeBoxesBySettings_EmptyJukeBoxList() {
         // given
-        given(jukeBoxService.getSettingsList()).willReturn(jukeBoxSettingList);
-        given(jukeBoxService.getJukeBoxList()).willReturn(new ArrayList<JukeBox>());
+        given(jukeBoxServiceMocked.getSettingsList()).willReturn(jukeBoxSettingList);
+        given(jukeBoxServiceMocked.getJukeBoxList()).willReturn(new ArrayList<JukeBox>());
 
         // when
         List<JukeBox> jukeBoxList = jukeBoxBusiness.getJukeBoxesBySettings("id1", null, null, null);
@@ -79,8 +79,8 @@ public class JukeBoxBusinessTest {
     @Test
     public void getJukeBoxesBySettings_FullResult() {
         // given
-        given(jukeBoxService.getSettingsList()).willReturn(jukeBoxSettingList);
-        given(jukeBoxService.getJukeBoxList()).willReturn(jukeBoxList);
+        given(jukeBoxServiceMocked.getSettingsList()).willReturn(jukeBoxSettingList);
+        given(jukeBoxServiceMocked.getJukeBoxList()).willReturn(jukeBoxList);
 
         // when
         List<JukeBox> jukeBoxList = jukeBoxBusiness.getJukeBoxesBySettings("id1", null, null, null);
@@ -95,8 +95,8 @@ public class JukeBoxBusinessTest {
     @Test
     public void getJukeBoxesBySettings_FilterByModel() {
         // given
-        given(jukeBoxService.getSettingsList()).willReturn(jukeBoxSettingList);
-        given(jukeBoxService.getJukeBoxList()).willReturn(jukeBoxList);
+        given(jukeBoxServiceMocked.getSettingsList()).willReturn(jukeBoxSettingList);
+        given(jukeBoxServiceMocked.getJukeBoxList()).willReturn(jukeBoxList);
 
         // when
         List<JukeBox> jukeBoxList = jukeBoxBusiness.getJukeBoxesBySettings("id1", "model2", null, null);
@@ -109,8 +109,8 @@ public class JukeBoxBusinessTest {
     @Test
     public void getJukeBoxesBySettings_Offset() {
         // given
-        given(jukeBoxService.getSettingsList()).willReturn(jukeBoxSettingList);
-        given(jukeBoxService.getJukeBoxList()).willReturn(jukeBoxList);
+        given(jukeBoxServiceMocked.getSettingsList()).willReturn(jukeBoxSettingList);
+        given(jukeBoxServiceMocked.getJukeBoxList()).willReturn(jukeBoxList);
 
         // when
         List<JukeBox> jukeBoxList = jukeBoxBusiness.getJukeBoxesBySettings("id1", null, 1, null);
@@ -122,8 +122,8 @@ public class JukeBoxBusinessTest {
     @Test
     public void getJukeBoxesBySettings_Limit() {
         // given
-        given(jukeBoxService.getSettingsList()).willReturn(jukeBoxSettingList);
-        given(jukeBoxService.getJukeBoxList()).willReturn(jukeBoxList);
+        given(jukeBoxServiceMocked.getSettingsList()).willReturn(jukeBoxSettingList);
+        given(jukeBoxServiceMocked.getJukeBoxList()).willReturn(jukeBoxList);
 
         // when
         List<JukeBox> jukeBoxList = jukeBoxBusiness.getJukeBoxesBySettings("id1", null, null, 1);
@@ -135,8 +135,8 @@ public class JukeBoxBusinessTest {
     @Test
     public void getJukeBoxesBySettings_OffsetAndLimit() {
         // given
-        given(jukeBoxService.getSettingsList()).willReturn(jukeBoxSettingList);
-        given(jukeBoxService.getJukeBoxList()).willReturn(jukeBoxList);
+        given(jukeBoxServiceMocked.getSettingsList()).willReturn(jukeBoxSettingList);
+        given(jukeBoxServiceMocked.getJukeBoxList()).willReturn(jukeBoxList);
 
         // when
         List<JukeBox> jukeBoxList = jukeBoxBusiness.getJukeBoxesBySettings("id1", null, 1, 2);
@@ -148,8 +148,8 @@ public class JukeBoxBusinessTest {
     @Test
     public void getJukeBoxesBySettings_OffsetOutOfBounds() {
         // given
-        given(jukeBoxService.getSettingsList()).willReturn(jukeBoxSettingList);
-        given(jukeBoxService.getJukeBoxList()).willReturn(jukeBoxList);
+        given(jukeBoxServiceMocked.getSettingsList()).willReturn(jukeBoxSettingList);
+        given(jukeBoxServiceMocked.getJukeBoxList()).willReturn(jukeBoxList);
 
         // when
         List<JukeBox> jukeBoxList = jukeBoxBusiness.getJukeBoxesBySettings("id1", null, 10, 2);
@@ -161,8 +161,8 @@ public class JukeBoxBusinessTest {
     @Test
     public void getJukeBoxesBySettings_LimitOutOfBounds() {
         // given
-        given(jukeBoxService.getSettingsList()).willReturn(jukeBoxSettingList);
-        given(jukeBoxService.getJukeBoxList()).willReturn(jukeBoxList);
+        given(jukeBoxServiceMocked.getSettingsList()).willReturn(jukeBoxSettingList);
+        given(jukeBoxServiceMocked.getJukeBoxList()).willReturn(jukeBoxList);
 
         // when
         List<JukeBox> jukeBoxList = jukeBoxBusiness.getJukeBoxesBySettings("id1", null, null, 20);
@@ -177,8 +177,8 @@ public class JukeBoxBusinessTest {
     @Test
     public void getJukeBoxesBySettings_FullParemeters() {
         // given
-        given(jukeBoxService.getSettingsList()).willReturn(jukeBoxSettingList);
-        given(jukeBoxService.getJukeBoxList()).willReturn(jukeBoxList);
+        given(jukeBoxServiceMocked.getSettingsList()).willReturn(jukeBoxSettingList);
+        given(jukeBoxServiceMocked.getJukeBoxList()).willReturn(jukeBoxList);
 
         // when
         List<JukeBox> jukeBoxList = jukeBoxBusiness.getJukeBoxesBySettings("id1", "model2", 0, 10);

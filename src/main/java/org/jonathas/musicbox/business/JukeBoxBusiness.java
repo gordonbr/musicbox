@@ -5,6 +5,7 @@ import org.jonathas.musicbox.model.JukeBox;
 import org.jonathas.musicbox.model.JukeBoxComponent;
 import org.jonathas.musicbox.model.JukeBoxSetting;
 import org.jonathas.musicbox.service.JukeBoxService;
+import org.jonathas.musicbox.service.JukeBoxServiceMocked;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 public class JukeBoxBusiness {
 
     @Autowired
-    private JukeBoxService jukeBoxService;
+    private JukeBoxService jukeBoxServiceMocked;
 
     /**
      * Looks for the jukeboxes that support a given setting
@@ -30,10 +31,10 @@ public class JukeBoxBusiness {
      */
     public List<JukeBox> getJukeBoxesBySettings(String settingId, String model, Integer offset, Integer limit) {
 
-        List<JukeBoxSetting> jukeBoxSettings = jukeBoxService.getSettingsList();
+        List<JukeBoxSetting> jukeBoxSettings = jukeBoxServiceMocked.getSettingsList();
         JukeBoxSetting jukeBoxSetting = findJukeBoxSettings(jukeBoxSettings, settingId);
 
-        List<JukeBox> jukeBoxList = jukeBoxService.getJukeBoxList();
+        List<JukeBox> jukeBoxList = jukeBoxServiceMocked.getJukeBoxList();
 
         return filterJukerBoxes(jukeBoxList, jukeBoxSetting, settingId, model, offset, limit);
     }
