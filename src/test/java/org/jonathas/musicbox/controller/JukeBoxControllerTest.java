@@ -1,5 +1,6 @@
 package org.jonathas.musicbox.controller;
 
+import org.hibernate.validator.constraints.br.TituloEleitoral;
 import org.jonathas.musicbox.business.JukeBoxBusiness;
 import org.jonathas.musicbox.exceptions.EntityNotFoundException;
 import org.jonathas.musicbox.model.JukeBox;
@@ -27,7 +28,6 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class JukeBoxControllerTest {
 
-
     @MockBean
     private JukeBoxBusiness jukeBoxBusiness;
 
@@ -35,8 +35,38 @@ public class JukeBoxControllerTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void canRetrieveByIdWhenExistsAllParameters() {
+    public void canRetrieveByIdWhenExistsNoSettingId() {
+        // when
+        ResponseEntity<Object> responseEntity = restTemplate.getForEntity("/jukeboxes", Object.class);
 
+        // then
+        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void canRetrieveByIdWhenExistsOnlySettingId() {
+        String settingId = "testId";
+        List<JukeBox> jukeBoxList = new ArrayList<>();
+        JukeBoxComponent jukeBoxComponent1 = new JukeBoxComponent("component1");
+        JukeBox jukeBox1 = new JukeBox("id1", "model1", Arrays.asList(jukeBoxComponent1));
+        jukeBoxList.add(jukeBox1);
+
+        // given
+        given(jukeBoxBusiness.getJukeBoxesBySettings(settingId, null, null, null))
+                .willReturn(jukeBoxList);
+
+        // when
+        String uri = String.format("/jukeboxes?settingId=%s", settingId);
+        ResponseEntity<Object> responseEntity = restTemplate.getForEntity(uri, Object.class);
+
+        // then
+        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        List<JukeBox> responseList = (List<JukeBox>)responseEntity.getBody();
+        Assert.assertEquals(responseList.size(), 1);
+    }
+
+    @Test
+    public void canRetrieveByIdWhenExistsAllParameters() {
         String settingId = "testId";
         String jukeBoxModel = "model1";
         Integer offset = 0;
