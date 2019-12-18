@@ -1,7 +1,6 @@
 package org.jonathas.musicbox.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.jonathas.musicbox.business.JukeBoxBusiness;
 import org.jonathas.musicbox.model.JukeBox;
 import org.slf4j.Logger;
@@ -32,10 +31,15 @@ public class JukeBoxController {
      */
     @GetMapping(value = "/jukeboxes")
     @ApiOperation(value = "Find all jukeboxes to a given setting", response = String.class)
-    public List<JukeBox> getJukeBoxesBySettings(@RequestParam(name = "settingId") String settingId,
-                                                @RequestParam(name = "model", required = false) String model,
-                                                @RequestParam(name = "offset", required = false) Integer offset,
-                                                @RequestParam(name = "limit", required = false) Integer limit) {
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved list"),
+            @ApiResponse(code = 400, message = "SettingId is required in path"),
+            @ApiResponse(code = 404, message = "Setting not found")
+    })
+    public List<JukeBox> getJukeBoxesBySettings(@ApiParam(value = "Jukebox setting id", required = true) @RequestParam(name = "settingId") String settingId,
+                                                @ApiParam(value = "Filter result by jukebox model") @RequestParam(name = "model", required = false) String model,
+                                                @ApiParam(value = "pagination offset") @RequestParam(name = "offset", required = false) Integer offset,
+                                                @ApiParam(value = "pagination limit") @RequestParam(name = "limit", required = false) Integer limit) {
         logger.info(String.format("Called getJukeBoxesBySettings with settingId:%s, model:%s, offset:%d and limit:%d",
                 settingId, model, offset, limit));
         return jukeBoxBusiness.getJukeBoxesBySettings(settingId, model, offset, limit);

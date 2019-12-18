@@ -14,6 +14,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Jukebox business class
+ * @author jonathas
+ */
 @Component
 public class JukeBoxBusiness {
 
@@ -71,7 +75,7 @@ public class JukeBoxBusiness {
                 if (!jukeBoxHasComponent(jukeBox, component)) { return false; }
             }
 
-            // Given the jukebox has all component, filter by model, if present
+            // Given the jukebox has all components, filter by model, if present
             if(model != null) {
                 return jukeBox.getModel().equals(model);
             } else { return true; }

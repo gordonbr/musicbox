@@ -13,6 +13,10 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A mocked implementation of JukeboxService that reads the data form a json file
+ * @author jonathas
+ */
 @Component
 public class JukeBoxServiceMocked implements JukeBoxService{
 

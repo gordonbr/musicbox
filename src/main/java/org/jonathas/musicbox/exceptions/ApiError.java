@@ -1,7 +1,9 @@
 package org.jonathas.musicbox.exceptions;
 
+import io.swagger.annotations.ApiModel;
 import org.springframework.http.HttpStatus;
 
+@ApiModel(description = "represents an error")
 class ApiError {
 
     private HttpStatus status;
@@ -29,6 +31,6 @@ class ApiError {
         this.debugMessage = ex.getLocalizedMessage();
     }
 
-    public void setMessage(String message) { this.message = message; }
     public HttpStatus getStatus() { return this.status; }
+    public String getMessage() { return this.message; }
 }
