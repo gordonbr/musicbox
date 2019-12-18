@@ -21,6 +21,10 @@ http://localhost:8080/swagger-ui.html
 
 <h6>RUN LOCAL</h6>
 - RUN: mvn build clean package spring-boot:repackage<br>
-- Go to target folder<br>
-- RUN: java -Dspring.profiles.active=default -jar musicbox-1.0-SNAPSHOT.jar
+- RUN: java -Dspring.profiles.active=default -jar target/musicbox-1.0-SNAPSHOT.jar
+
+<h6>RUN DOCKER</h6>
+- RUN: mvn build clean package spring-boot:repackage<br>
+- RUN: sudo docker build -t musicbox-app:latest .
+- RUN: sudo docker run -p 8080:8080 musicbox-app:latest
 
