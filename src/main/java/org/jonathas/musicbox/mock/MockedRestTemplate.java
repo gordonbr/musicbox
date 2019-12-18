@@ -51,9 +51,7 @@ public class MockedRestTemplate {
             String content = new String(bdata, StandardCharsets.UTF_8);
             return jsonParser.parse(content);
         } catch (Exception error) {
-            // TODO
-            error.printStackTrace();
+            throw new RuntimeException(error);
         }
-        return null;
     }
 }
