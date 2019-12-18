@@ -106,6 +106,21 @@ public class JukeBoxControllerTest {
 
         // then
         Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.NOT_FOUND);
-        Assert.assertEquals(responseEntity.getBody().toString(), "{status=NOT_FOUND}");
+        Assert.assertEquals(responseEntity.getBody().toString(), "{status=NOT_FOUND, message=JukeboxSetting not found for the given settingId}");
+    }
+
+    @Test
+    public void canRetrieveByIdNoSetting() {
+        String jukeBoxModel = "model1";
+        Integer offset = 0;
+        Integer limit = 10;
+
+        // when
+        String uri = String.format("/jukeboxes?model=%s&offset=%d&limit=%d", jukeBoxModel, offset, limit);
+        ResponseEntity<Object> responseEntity = restTemplate.getForEntity(uri, Object.class);
+
+        // then
+        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
+        Assert.assertEquals(responseEntity.getBody().toString(), "{status=BAD_REQUEST, message=settingId is required}");
     }
 }

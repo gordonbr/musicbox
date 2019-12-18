@@ -2,3 +2,4 @@
 musicbox.iml
 *.class
 *.kotlin_module
+target/
