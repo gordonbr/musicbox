@@ -7,6 +7,7 @@ import org.jonathas.musicbox.model.JukeBoxSetting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,8 @@ import java.util.List;
  * A mocked implementation of JukeboxService that reads the data form a json file
  * @author jonathas
  */
-@Component
+@Component("jukeBoxServiceMock")
+@Profile("dev")
 public class JukeBoxServiceMocked implements JukeBoxService{
 
     @Autowired
