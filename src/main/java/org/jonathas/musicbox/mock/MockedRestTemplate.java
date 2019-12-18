@@ -8,10 +8,11 @@ import org.json.simple.parser.ParseException;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.FileCopyUtils;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
 /**
  * Class that mocks the behaviour of Spring RestTemplate class
@@ -44,10 +45,11 @@ public class MockedRestTemplate {
     }
 
     private Object readFile(String fileName) {
-        Resource resource = new ClassPathResource(fileName);
-
-        try (FileReader fileReader = new FileReader(resource.getFile())){
-            return jsonParser.parse(fileReader);
+        ClassPathResource resource = new ClassPathResource(fileName);
+        try {
+            byte[] bdata = FileCopyUtils.copyToByteArray(resource.getInputStream());
+            String content = new String(bdata, StandardCharsets.UTF_8);
+            return jsonParser.parse(content);
         } catch (Exception error) {
             // TODO
             error.printStackTrace();

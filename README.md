@@ -19,4 +19,8 @@ GET /jukeboxes
 <h6>SWAGGER</h6>
 http://localhost:8080/swagger-ui.html
 
-<h4></h4>
+<h6>RUN LOCAL</h6>
+- RUN: mvn build clean package spring-boot:repackage<br>
+- Go to target folder<br>
+- RUN: java -Dspring.profiles.active=default -jar musicbox-1.0-SNAPSHOT.jar
+
