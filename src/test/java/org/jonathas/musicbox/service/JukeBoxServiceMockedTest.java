@@ -6,27 +6,30 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class JukeBoxServiceTest {
+@ActiveProfiles("dev")
+public class JukeBoxServiceMockedTest {
 
     @Autowired
-    JukeBoxServiceMocked jukeBoxServiceMocked;
+    JukeBoxService jukeBoxService;
 
     @Test
     public void getJukeBoxListTest() {
-        List<JukeBox> jukeBoxList = jukeBoxServiceMocked.getJukeBoxList();
+        List<JukeBox> jukeBoxList = jukeBoxService.getJukeBoxList();
         Assert.assertEquals(jukeBoxList.size(), 4);
     }
 
     @Test
     public void getSettingsListTest() {
-        List<JukeBoxSetting> jukeBoxSettings = jukeBoxServiceMocked.getSettingsList();
+        List<JukeBoxSetting> jukeBoxSettings = jukeBoxService.getSettingsList();
         Assert.assertEquals(jukeBoxSettings.size(), 5);
     }
 }

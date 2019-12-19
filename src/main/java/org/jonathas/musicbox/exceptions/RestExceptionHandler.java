@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.security.InvalidParameterException;
+
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -35,6 +37,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         logger.error(ex.getMessage());
         ApiError apiError = new ApiError(BAD_REQUEST, "settingId is required", ex);
 
+        return buildResponseEntity(apiError, ex);
+    }
+
+    @ExceptionHandler(InvalidParameterException.class)
+    protected ResponseEntity<Object> handleGeneralInvalidParameterException(Exception ex) {
+        logger.error(ex.getMessage());
+        ApiError apiError = new ApiError(BAD_REQUEST, ex.getMessage(), ex);
         return buildResponseEntity(apiError, ex);
     }
 

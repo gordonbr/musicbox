@@ -4,6 +4,7 @@ import org.jonathas.musicbox.exceptions.EntityNotFoundException;
 import org.jonathas.musicbox.model.JukeBox;
 import org.jonathas.musicbox.model.JukeBoxComponent;
 import org.jonathas.musicbox.model.JukeBoxSetting;
+import org.jonathas.musicbox.service.JukeBoxService;
 import org.jonathas.musicbox.service.JukeBoxServiceMocked;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,7 +26,7 @@ import static org.mockito.BDDMockito.given;
 public class JukeBoxBusinessTest {
 
     @MockBean
-    JukeBoxServiceMocked jukeBoxServiceMocked;
+    JukeBoxService jukeBoxServiceMocked;
 
     @Autowired
     JukeBoxBusiness jukeBoxBusiness;

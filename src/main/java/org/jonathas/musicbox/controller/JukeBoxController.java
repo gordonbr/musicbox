@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 
 @RestController
@@ -42,6 +43,11 @@ public class JukeBoxController {
                                                 @ApiParam(value = "pagination limit") @RequestParam(name = "limit", required = false) Integer limit) {
         logger.info(String.format("Called getJukeBoxesBySettings with settingId:%s, model:%s, offset:%d and limit:%d",
                 settingId, model, offset, limit));
+
+        if((offset != null && offset < 0) || (limit != null && limit < 0)) {
+            throw new InvalidParameterException("Offset and limit can't be less than 0");
+        }
+
         return jukeBoxBusiness.getJukeBoxesBySettings(settingId, model, offset, limit);
     }
 }

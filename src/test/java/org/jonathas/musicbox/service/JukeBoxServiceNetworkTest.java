@@ -1,4 +1,4 @@
-package org.jonathas.musicbox;
+package org.jonathas.musicbox.service;
 
 import static org.junit.Assert.assertTrue;
 

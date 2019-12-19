@@ -123,4 +123,49 @@ public class JukeBoxControllerTest {
         Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
         Assert.assertEquals(responseEntity.getBody().toString(), "{status=BAD_REQUEST, message=settingId is required}");
     }
+
+    @Test
+    public void canRetrieveByIdLimimtNegative() {
+        String jukeBoxModel = "model1";
+        Integer offset = -1;
+        Integer limit = 10;
+
+        // when
+        String uri = String.format("/jukeboxes?settingId=test1&model=%s&offset=%d&limit=%d", jukeBoxModel, offset, limit);
+        ResponseEntity<Object> responseEntity = restTemplate.getForEntity(uri, Object.class);
+
+        // then
+        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
+        Assert.assertEquals(responseEntity.getBody().toString(), "{status=BAD_REQUEST, message=Offset and limit can't be less than 0}");
+    }
+
+    @Test
+    public void canRetrieveByIdOffsetNegative() {
+        String jukeBoxModel = "model1";
+        Integer offset = 0;
+        Integer limit = -10;
+
+        // when
+        String uri = String.format("/jukeboxes?settingId=test1&model=%s&offset=%d&limit=%d", jukeBoxModel, offset, limit);
+        ResponseEntity<Object> responseEntity = restTemplate.getForEntity(uri, Object.class);
+
+        // then
+        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
+        Assert.assertEquals(responseEntity.getBody().toString(), "{status=BAD_REQUEST, message=Offset and limit can't be less than 0}");
+    }
+
+    @Test
+    public void canRetrieveByIdLimimtAndOffsetNegative() {
+        String jukeBoxModel = "model1";
+        Integer offset = -1;
+        Integer limit = -10;
+
+        // when
+        String uri = String.format("/jukeboxes?settingId=test1&model=%s&offset=%d&limit=%d", jukeBoxModel, offset, limit);
+        ResponseEntity<Object> responseEntity = restTemplate.getForEntity(uri, Object.class);
+
+        // then
+        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
+        Assert.assertEquals(responseEntity.getBody().toString(), "{status=BAD_REQUEST, message=Offset and limit can't be less than 0}");
+    }
 }

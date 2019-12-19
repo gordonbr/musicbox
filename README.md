@@ -28,9 +28,8 @@ http://localhost:8080/swagger-ui.html
 - RUN: sudo docker build -t musicbox-app:latest .
 - RUN: sudo docker run -p 8080:8080 musicbox-app:latest
 
-<h6> CALL REAL REST SERVICE</h6>
-By default, in "dev", the service calls a mocked api that reads data from json files. 
-To call a real REST service, change the profile to "prod" in application.properties. As well as
-"listJukeBoxesUri" and "listJukeBoxSettingsUri" 
+<h6> PROFILES </h6>
+By default, in "prod", the service calls the REST API provided in the test documentation. Change to 
+"dev" to a mocked api that reads data from json files. 
 
 
