@@ -5,6 +5,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -20,11 +22,15 @@ import java.util.Scanner;
 @Component
 public class MockedRestTemplate {
 
-    private static final String JUKEBOX_URI = "http://my-json-server.typicode.com/touchtunes/tech-assignment/jukes";
-    private static final String JUKEBOX_SETTINGS_URI = "http://my-json-server.typicode.com/touchtunes/tech-assignment/settings";
+    @Autowired
+    private Environment env;
+
     private JSONParser jsonParser = new JSONParser();
 
     public String getForEntity(String uri) {
+        String JUKEBOX_URI = env.getProperty("listJukeBoxesUri");
+        String JUKEBOX_SETTINGS_URI = env.getProperty("listJukeBoxSettingsUri");
+
         if (uri != null && uri.equals(JUKEBOX_URI)) {
             return getJukeBoxes();
         } else if (uri != null && uri.equals((JUKEBOX_SETTINGS_URI))) {
